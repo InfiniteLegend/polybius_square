@@ -1,0 +1,15 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{title}} &ndash; Polybius Square</title>
+    {% else %}
+    <title>Polybius Square</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Polybius Square: <a href="/index">Home</a></div>
+    <div>Information: <a href="/info">Info</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

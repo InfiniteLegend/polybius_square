@@ -1,5 +1,5 @@
 from flask import jsonify
-
+from flask import render_template
 from app import app
 
 
@@ -13,7 +13,19 @@ def index():
     """
 
     # TODO: Return home page template.
-    return "Hello, World!"
+    return render_template("index.html", title="Home")
+
+
+@app.route('/info')
+def info_page():
+    """
+    Info page. Returns template.
+
+    :return:
+    """
+
+    # TODO: Return info page template.
+    return render_template("info.html", title="Information")
 
 
 @app.route("/api/encode", methods=["POST"], strict_slashes=False)
