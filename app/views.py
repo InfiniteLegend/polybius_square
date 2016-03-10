@@ -28,6 +28,18 @@ def info_page():
     return render_template("info.html", title="Information")
 
 
+@app.route('/developers')
+def develop_page():
+    """
+    Page with developers info. Returns template.
+
+    :return:
+    """
+
+    # TODO: Return info page template.
+    return render_template("developers.html", title="Who do")
+
+
 @app.route("/api/encode", methods=["POST"], strict_slashes=False)
 def encode():
     """

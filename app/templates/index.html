@@ -2,4 +2,16 @@
 
 {% block content %}
     <p>Here will be main form.</p>
+<form action="/api/decode">
+    <div>
+        <textarea></textarea>
+        <input type="submit" value="Decode">
+    </div>
+</form>
+<form action="/api/encode">
+    <div>
+        <textarea></textarea>
+        <input type="submit" value="Encode">
+    </div>
+</form>
 {% endblock %}

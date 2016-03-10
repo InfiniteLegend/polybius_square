@@ -7,9 +7,17 @@
     {% endif %}
   </head>
   <body>
-    <div>Polybius Square: <a href="/index">Home</a></div>
-    <div>Information: <a href="/info">Info</a></div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav">
+            <li><a href="/index">Home</a></li>
+            <li><a href="/info">Information</a></li>
+            <li><a href="/developers">Developers</a></li>
+        </ul>
+    </div>
     <hr>
     {% block content %}{% endblock %}
   </body>
+<footer>
+    <div align="center">KhAI 2016</div>
+</footer>
 </html>
