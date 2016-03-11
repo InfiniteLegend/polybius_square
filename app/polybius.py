@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Module which contains all necessary logic to use Polybius algorithm.
 
@@ -45,11 +46,31 @@ def get_char_square(password=None):
         chars += uniqify(password)
         condition = lambda i: not chr(i) in password
 
-    chars += [chr(i) for i in xrange(44, 124) if condition(i)] + [chr(i) for i in xrange(192, 256) if condition(i)]
+    chars += [chr(i).decode('cp1251') for i in xrange(32, 126) if condition(i)]
+    chars += [chr(i).decode('cp1251') for i in xrange(192, 256) if condition(i)]
     chars = np.array(chars)
 
     dimension = math.sqrt(len(chars))
 
-    chars = np.reshape(chars, (dimension, ) * 2)
+    # chars = np.reshape(chars, (dimension, ) * 2)
 
     return chars
+
+
+def encode(text, password=None):
+    """
+    Encoding message using polybius algorithm.
+
+    :param text:
+    :param password:
+    :return:
+    """
+
+    chars = get_char_square(password)
+    print chars[128]
+    pass
+
+
+
+if __name__ == "__main__":
+    encode("Hello, world")
