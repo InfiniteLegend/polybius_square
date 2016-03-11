@@ -16,7 +16,7 @@ def index():
     return render_template("index.html", title="Home")
 
 
-@app.route('/info')
+@app.route('/about')
 def info_page():
     """
     Info page. Returns template.
@@ -25,10 +25,10 @@ def info_page():
     """
 
     # TODO: Return info page template.
-    return render_template("info.html", title="Information")
+    return render_template("info.html", title="About")
 
 
-@app.route('/developers')
+@app.route('/contact')
 def develop_page():
     """
     Page with developers info. Returns template.
@@ -37,7 +37,7 @@ def develop_page():
     """
 
     # TODO: Return info page template.
-    return render_template("developers.html", title="Who do")
+    return render_template("developers.html", title="Contacts")
 
 
 @app.route("/api/encode", methods=["POST"], strict_slashes=False)
