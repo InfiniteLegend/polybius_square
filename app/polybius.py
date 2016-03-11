@@ -8,45 +8,48 @@ import math
 import numpy as np
 
 
-def get_optimal_dimension(length):
+def uniqify(password):
     """
-    Calculates best dimension for Polybius rectangle or square.
+    Method that uniqifies password (deletes repeated symbols) and returns password
+    as list.
 
-    :param length:
+    :param password:
     :return:
     """
 
-    sqrt = math.sqrt(length)
+    password = list(password)
 
-    # If length perfectly suits for square - return square root.
-    if length % sqrt == 0:
-        print "Square {0}x{0} found!".format(sqrt)
-        return (sqrt, sqrt)
+    seen = {}
+    result = []
 
-    # If doesn't - find best matching rectangle sizes.
-    a = int(sqrt)
-    while a > 1:
-        b = length / a
-        if isinstance(b, int):
-            print "Rectangle {}x{} found!".format(a, b)
-            return (a, b)
-        a -= 1
+    for char in password:
+        if char in seen: continue
+        seen[char] = 1
+        result.append(char)
 
-    # Something can go wrong. Print error.
-    # TODO: Write something better here.
-    raise Exception()
+    return result
 
 
-def get_char_square():
+def get_char_square(password=None):
     """
     Returns list of chars in a square/rectangle format.
 
+    :param password:
     :return:
     """
 
-    chars = [chr(i) for i in xrange(33, 124)] + [chr(i) for i in xrange(192, 256)]
+    chars = list()
+    condition = lambda i: True
+
+    if password:
+        chars += uniqify(password)
+        condition = lambda i: not chr(i) in password
+
+    chars += [chr(i) for i in xrange(44, 124) if condition(i)] + [chr(i) for i in xrange(192, 256) if condition(i)]
     chars = np.array(chars)
 
-    dimension = get_optimal_dimension(len(chars))
+    dimension = math.sqrt(len(chars))
 
+    chars = np.reshape(chars, (dimension, ) * 2)
 
+    return chars
