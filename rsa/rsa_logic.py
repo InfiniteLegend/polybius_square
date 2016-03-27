@@ -1,5 +1,83 @@
 import random
 import math
+import time
+
+
+def FindPrimes_1(start, limit):
+    IsPrimes = []
+    sqrt = math.sqrt(limit)
+
+    x = 1
+    while x <= sqrt:
+        y = 1
+        while y <= sqrt:
+            # for y in xrange(1, sqrt):
+            x2 = x * x
+            y2 = y * y
+            n = 4 * x2 + y2
+            if n <= limit and (n % 12 == 1 or n % 12 == 5):
+                IsPrimes.append(n)
+
+            n -= x2
+            if n <= limit and n % 12 == 7:
+                IsPrimes.append(n)
+
+            n -= 2 * y2
+            if x > y and n <= limit and n % 12 == 11:
+                IsPrimes.append(n)
+                # IsPrimes[n] = IsPrimes.get(n, False) ^ True
+            y += 1
+        x += 1
+    n = 5
+    while n <= sqrt:
+        if n in IsPrimes:
+            s = n * n
+            for k in xrange(s, limit, s):
+                if k in IsPrimes:
+                    IsPrimes.remove(k)
+        n += 2
+    # IsPrimes[2] = True
+    # IsPrimes[3] = True
+    IsPrimes = [el for el in IsPrimes if el >= start]
+    return IsPrimes
+
+
+def FindPrimes(start, limit):
+    IsPrimes = []
+    sqrt = math.sqrt(limit)
+    # for x in xrange(1, sqrt):
+    x = 1
+    while x <= sqrt:
+        y = 1
+        while y <= sqrt:
+            # for y in xrange(1, sqrt):
+            x2 = x * x
+            y2 = y * y
+            n = 4 * x2 + y2
+
+            if n <= limit and (n % 12 == 1 or n % 12 == 5) and n >= start:
+                IsPrimes.append(n)
+
+            n -= x2
+            if n <= limit and n % 12 == 7 and n >= start:
+                IsPrimes.append(n)
+
+            n -= 2 * y2
+            if x > y and n <= limit and n % 12 == 11 and n >= start:
+                IsPrimes.append(n)
+                # IsPrimes[n] = IsPrimes.get(n, False) ^ True
+            y += 1
+        x += 1
+    n = 5
+    while n <= sqrt:
+        if n in IsPrimes:
+            s = n * n
+            for k in xrange(s, limit, s):
+                IsPrimes.pop(k)
+        n += 2
+    # IsPrimes[2] = True
+    # IsPrimes[3] = True
+    return IsPrimes
 
 
 def is_prime(number):
@@ -28,7 +106,7 @@ def primes(n, m):
     :return:
     """
     prime_list = []
-    for number in xrange(n, m+1):
+    for number in xrange(n, m + 1):
         if is_prime(number):
             prime_list.append(number)
     return prime_list
@@ -59,7 +137,15 @@ def random_prime(bits):
     stop = 1 << (bits // 2 + 1)
 
     # primes_list = get_primes(start, stop)
-    primes_list = primes(start, stop)
+    # start_time = time.time()
+    primes_list = FindPrimes(start, stop)
+    # primes_list = FindPrimes_1(start, stop)
+    # print("Anki Time: %.03f s" % (time.time() - start_time))
+
+    # start_time = time.time()
+    # primes_list = primes(start, stop)
+    # print("Default Time: %.03f s" % (time.time() - start_time))
+
     while primes_list:
         p = random.choice(primes_list)
         primes_list.remove(p)
@@ -71,7 +157,12 @@ def random_prime(bits):
     else:
         raise AssertionError("cannot find 'p' and 'q' for a key of "
                              "length={!r}".format(bits))
-    stop = (p - 1) * (q - 1)
+    return p, q
+
+
+def get_keys(length):
+    p, q = random_prime(length)
+    stop = (p - 1) * (q - 1)  # Eler function
     for e in xrange(3, stop, 2):
         if are_relatively_prime(e, stop):
             break
@@ -85,9 +176,9 @@ def random_prime(bits):
     else:
         raise AssertionError("cannot find 'd' with p={!r}, q={!r} "
                              "and e={!r}".format(p, q, e))
-
+    n = p * q
     # That's all. We can build and return the public and private keys.
-    return [p * q, e, p * q, d]
+    return {'e': e, 'n': n}, {'d': d, 'n': n}
 
 
 def encrypt(encrypt_string, e, n):
@@ -99,6 +190,11 @@ def encrypt(encrypt_string, e, n):
     :param n:
     :return:
     """
+    # cript_list = []
+    # for item in list(str(encrypt_string)):
+    #     cript_list.append(pow(int(item), e, n))
+    # return cript_list
+    return pow(encrypt_string, e, n)
 
 
 def decrypt(decrypt_string, d, n):
@@ -110,13 +206,19 @@ def decrypt(decrypt_string, d, n):
     :param n:
     :return:
     """
+    # cript_list = []
+    # for item in decrypt_string:
+    #     cript_list.append(pow(item, d, n))
+    # return int(''.join(map(str, cript_list)))
+    return pow(decrypt_string, d, n)
 
-
-import time
 
 
 if __name__ == "__main__":
     start = time.time()
-    test = random_prime(25)
-    print(test)
+    pub_key, priv_key = get_keys(30)
+    cript = encrypt(1234567, pub_key['e'], pub_key['n'])
+    print(cript)
+    mes = decrypt(cript, priv_key['d'], priv_key['n'])
+    print(mes)
     print("Time: %.03f s" % (time.time() - start))
