@@ -138,12 +138,12 @@ def random_prime(bits):
 
     # primes_list = get_primes(start, stop)
     # start_time = time.time()
-    primes_list = FindPrimes(start, stop)
+    # primes_list = FindPrimes(start, stop)
     # primes_list = FindPrimes_1(start, stop)
     # print("Anki Time: %.03f s" % (time.time() - start_time))
 
     # start_time = time.time()
-    # primes_list = primes(start, stop)
+    primes_list = primes(start, stop)
     # print("Default Time: %.03f s" % (time.time() - start_time))
 
     while primes_list:
@@ -217,7 +217,7 @@ def decrypt(decrypt_string, d, n):
 if __name__ == "__main__":
     start = time.time()
     pub_key, priv_key = get_keys(30)
-    cript = encrypt(1234567, pub_key['e'], pub_key['n'])
+    cript = encrypt(12345, pub_key['e'], pub_key['n'])
     print(cript)
     mes = decrypt(cript, priv_key['d'], priv_key['n'])
     print(mes)
