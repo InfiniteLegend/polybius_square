@@ -5,6 +5,9 @@ Module which contains all necessary logic to use Polybius algorithm.
 """
 
 import math
+import sys
+import locale
+import json
 
 import numpy as np
 
@@ -46,13 +49,14 @@ def get_char_square(password=None):
         chars += uniqify(password)
         condition = lambda i: not chr(i) in password
 
-    chars += [chr(i).decode('cp1251') for i in xrange(32, 126) if condition(i)]
-    chars += [chr(i).decode('cp1251') for i in xrange(192, 256) if condition(i)]
+    chars += [unichr(i) for i in xrange(32, 127) if condition(i)]
+    chars += [unichr(i) for i in xrange(1040, 1112) if condition(i)]
+    chars += [unichr(i) for i in (1030, 1031)]
     chars = np.array(chars)
 
     dimension = math.sqrt(len(chars))
 
-    # chars = np.reshape(chars, (dimension, ) * 2)
+    chars = np.reshape(chars, (dimension, ) * 2)
 
     return chars
 
@@ -67,10 +71,22 @@ def encode(text, password=None):
     """
 
     chars = get_char_square(password)
-    print chars[128]
-    pass
+
+    # Getting coordinates for each character.
+    locations = [[location[0][0], location[1][0]] for location in [np.where(chars == char) for char in text]]
+
+    # Listing them inline and grouping to pairs.
+    locations = [location[0] for location in locations] + [location[1] for location in locations]
+    locations = [[locations[i], locations[i+1]] for i in xrange(0, len(locations), 2)]
+
+    text = u"".join([chars[location[0], location[1]] for location in locations])
+
+    return json.dumps({
+        "data": text
+    })
 
 
 
 if __name__ == "__main__":
-    encode("Hello, world")
+    text = raw_input().decode(sys.stdin.encoding or locale.getpreferredencoding(True))
+    encode(text)
