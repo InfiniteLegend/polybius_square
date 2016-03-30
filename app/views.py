@@ -1,5 +1,7 @@
 from flask import jsonify
 from flask import render_template
+from flask import request
+from polybius import encode
 from app import app
 
 
@@ -49,6 +51,8 @@ def encode():
     """
 
     # TODO: Do the logic and assign the result to the variable below!
+    text = request.form.get("text-to-encode")
+    # result = encode(text)
     response = dict()
     return jsonify(response)
 
@@ -62,5 +66,7 @@ def decode():
     """
 
     # TODO: Do the logic and assign the result to the variable below!
+    text = request.form.get("text-to-decode")
+
     response = dict()
     return jsonify(response)
