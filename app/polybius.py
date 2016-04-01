@@ -82,7 +82,7 @@ def encode(text, password=None):
     text = u"".join([chars[location[0], location[1]] for location in locations])
 
     return json.dumps({
-        "data": text
+        "result": text
     })
 
 
@@ -110,7 +110,7 @@ def decode(text, password=None):
     text = u"".join([chars[new_locations[i], new_locations[i + center]] for i in xrange(0, center)])
 
     return json.dumps({
-        "data": text
+        "result": text
     })
 
 if __name__ == "__main__":
