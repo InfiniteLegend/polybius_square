@@ -1,8 +1,10 @@
 var start_coding = function() {
-    var data = {
-        "text": $("#text1").val(),
-        "password": $("#password").val()
-    };
+    var data = {"text": $("#text1").val()};
+
+    if($("#check-pwd").is(':checked')) {
+        data["password"] = $("#password").val();
+    }
+
     if($("#decode-radio").is(':checked')) {
         send_request("/api/decode", data);
     }
@@ -25,4 +27,15 @@ var send_request = function(url, data) {
 
         }
     });
+};
+
+
+var password_tugle = function(elem) {
+    if($(elem).is(':checked')) {
+        $("#password").prop('disabled', false);
+    }
+    else {
+        $("#password").prop('disabled', true);
+        $("#password").prop('value', "");
+    }
 };
