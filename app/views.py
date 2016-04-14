@@ -1,8 +1,9 @@
-from flask import jsonify
 from flask import render_template
 from flask import request
-from polybius import encode
+
 from app import app
+from polybius import encode as encoding
+from polybius import decode as decoding
 
 
 @app.route('/')
@@ -13,7 +14,6 @@ def index():
 
     :return:
     """
-
     # TODO: Return home page template.
     return render_template("index.html", title="Home")
 
@@ -25,7 +25,6 @@ def info_page():
 
     :return:
     """
-
     # TODO: Return info page template.
     return render_template("info.html", title="About")
 
@@ -37,7 +36,6 @@ def develop_page():
 
     :return:
     """
-
     # TODO: Return info page template.
     return render_template("developers.html", title="Contacts")
 
@@ -49,12 +47,11 @@ def encode():
 
     :return:
     """
-
     # TODO: Do the logic and assign the result to the variable below!
-    text = request.form.get("text-to-encode")
-    # result = encode(text)
-    response = dict()
-    return jsonify(response)
+    text = request.form.get("text", "")
+    password = request.form.get("password", "")
+    result_data = encoding(text, password)
+    return result_data
 
 
 @app.route("/api/decode", methods=["POST"], strict_slashes=False)
@@ -64,9 +61,8 @@ def decode():
 
     :return:
     """
-
     # TODO: Do the logic and assign the result to the variable below!
-    text = request.form.get("text-to-decode")
-
-    response = dict()
-    return jsonify(response)
+    text = request.form.get("text", "")
+    password = request.form.get("password", "")
+    result_data = decoding(text, password)
+    return result_data

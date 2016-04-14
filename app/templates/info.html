@@ -1,11 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
+<div class="container">
+    <div class="well well-lg">
+        {#
+        <div class="row">#}
+            {# В криптографии квадрат Полибия (англ. Polybius square), также известный как шахматная доска Полибия —
+            оригинальный код простой замены, одна из древнейших систем кодирования, предложенная Полибием (греческий
+            историк, полководец, государственный деятель, III век до н. э.). Данный вид кодирования изначально
+            применялся для греческого алфавита, но затем был распространен на другие языки.#}
+            {#
+        </div>
+        #}
         <div class="row">
-            <div class="well well-lg">
-                В криптографии квадрат Полибия (англ. Polybius square), также известный как шахматная доска Полибия — оригинальный код простой замены, одна из древнейших систем кодирования, предложенная Полибием (греческий историк, полководец, государственный деятель, III век до н. э.). Данный вид кодирования изначально применялся для греческого алфавита, но затем был распространен на другие языки.
-            </div>
+            In cryptography, the Polybius square, also known as the Polybius checkerboard, is a device invented by the
+            Ancient Greek historian and scholar Polybius, for fractionating plaintext characters so that they can be
+            represented by a smaller set of symbols.
+        </div>
+        <div class="row">
+            <p>In order to encrypt the text of Polybius square to do a few steps:</p>
+
+            <h4>Step 1: Formation of encryption tables</h4>
+
+            <p>Each language table encryption is made separately with the same (not necessarily) the number of numbered
+                rows and columns, the parameters of which depend on its capacity (the number of letters in the
+                alphabet). Take two integers whose product is the closest to the number of letters in the language - get
+                the desired number of rows and columns. Then we enter in the table all the letters of the alphabet in a
+                row - one for each cell. With a shortage of cells can be entered in one or two letters (rarely used or
+                similar in-use).
+                Using such an algorithm, the encryption table can be set for any language. To decrypt the text enclosed
+                needs to know what the alphabet encryption table it is encrypted.</p>
+
+            <h4>Step 2: The principle of encryption</h4>
+
+            <p>There are several encryption methods using square Polybius:</p>
+            <ol>
+                <li>
+                    To encrypt on the square find the letter of the text and inserted in a coded bottom of it in the
+                    same column. If the letter was the bottom line, then took the top of the same column.
+                </li>
+                <li>
+                    The message is converted into coordinates on the Polybius square, the coordinates are written vertically. Then the coordinates are read by row. Further letters are converted into coordinates on the same square.
+                </li>
+                <li>
+                    The resulting primary ciphertext encrypted again. At the same time he issued without splitting into pairs. The resulting sequence numbers cyclically shifted to the left by an odd number of steps. This sequence is divided again into two groups according to the table and replaced by the final ciphertext.
+                </li>
+            </ol>
         </div>
     </div>
+</div>
 {% endblock %}

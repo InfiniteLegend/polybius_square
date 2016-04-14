@@ -20,7 +20,6 @@ def uniqify(password):
     :param password:
     :return:
     """
-
     password = list(password)
 
     seen = {}
@@ -41,7 +40,6 @@ def get_char_square(password=None):
     :param password:
     :return:
     """
-
     chars = list()
     condition = lambda i: True
 
@@ -69,7 +67,6 @@ def encode(text, password=None):
     :param password:
     :return:
     """
-
     chars = get_char_square(password)
 
     # Getting coordinates for each character.
@@ -82,7 +79,7 @@ def encode(text, password=None):
     text = u"".join([chars[location[0], location[1]] for location in locations])
 
     return json.dumps({
-        "data": text
+        "result": text
     })
 
 
@@ -94,7 +91,6 @@ def decode(text, password=None):
     :param password:
     :return:
     """
-
     chars = get_char_square(password)
 
     # Getting coordinates for each character.
@@ -110,7 +106,7 @@ def decode(text, password=None):
     text = u"".join([chars[new_locations[i], new_locations[i + center]] for i in xrange(0, center)])
 
     return json.dumps({
-        "data": text
+        "result": text
     })
 
 if __name__ == "__main__":
